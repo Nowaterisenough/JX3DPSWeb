@@ -13,7 +13,7 @@ jobs:
       uses: mymindstorm/setup-emsdk@v11
 
     - name: Configure CMake
-      run: emcmake cmake -B build
+      run: emcmake cmake -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       run: cmake --build build
@@ -29,3 +29,8 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./deploy
+
+    - name: Check code formatting
+      run: |
+        clang-format -style=file -i $(find . -name '*.cpp' -o -name '*.h')
+        git diff --exit-code || (echo "Code formatting issues found." && exit 1)
