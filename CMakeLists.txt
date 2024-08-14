@@ -17,3 +17,6 @@ add_executable(wasm_multi_thread main.cpp)
 set_target_properties(wasm_multi_thread PROPERTIES
     LINK_FLAGS "-s WASM=1 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s EXPORTED_RUNTIME_METHODS=['ccall']"
 )
+
+# 复制 index.html 到构建目录
+configure_file(${CMAKE_SOURCE_DIR}/index.html ${CMAKE_BINARY_DIR}/index.html COPYONLY)

@@ -2,26 +2,27 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WASM多线程示例</title>
 </head>
 <body>
     <h1>WASM多线程示例</h1>
     <label for="threadCount">线程数:</label>
-    <input type="number" id="threadCount" value="4" min="1" max="8">
+    <input type="number" id="threadCount" min="1" max="4" value="4">
     <button onclick="runTest()">运行测试</button>
     <p id="result"></p>
 
     <script>
         var Module = {
             onRuntimeInitialized: function() {
-                console.log('WASM模块已加载');
+                console.log('WebAssembly模块加载完成');
             }
         };
 
         function runTest() {
             const threadCount = document.getElementById('threadCount').value;
             const result = Module.ccall('runThreads', 'number', ['number'], [threadCount]);
-            document.getElementById('result').textContent = `计数结果: ${result}`;
+            document.getElementById('result').textContent = `结果: ${result}`;
         }
     </script>
     <script src="wasm_multi_thread.js"></script>
