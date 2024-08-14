@@ -1,0 +1,31 @@
+name: Build and Deploy WASM
+
+on: [push, pull_request]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Emscripten
+      uses: mymindstorm/setup-emsdk@v11
+
+    - name: Configure CMake
+      run: emcmake cmake -B build
+
+    - name: Build
+      run: cmake --build build
+
+    - name: Copy files to deployment directory
+      run: |
+        mkdir deploy
+        cp build/wasm_multi_thread.* deploy/
+        cp index.html deploy/
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./deploy
