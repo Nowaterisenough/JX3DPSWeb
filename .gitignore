@@ -9,4 +9,4 @@ build/*
 
 # Ignore Local history files
 .history/*
-./github/workflows/token.txt
+.github/workflows/token.txt
